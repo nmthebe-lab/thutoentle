@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Thuto Entle — Beautiful Education for All</title>
+<meta name="description" content="Thuto Entle — Community Education & Skills Development NGO. Beautiful Education for All."/>
+<link id="favicon" rel="icon" href="logo.png"/>
+<style>
+  :root{--bg:#0b0f14;--card:#121721;--text:#eaf2f7;--muted:#9fb4c3;--accent:#00d1b2;--line:#182433;--pill:#0c2a2f}
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,#07121a,#0b0f14 40%,#0a0f15);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  a{color:inherit} .container{max-width:1160px;margin:0 auto;padding:0 20px}
+
+  /* Nav */
+  nav{position:fixed;inset:0 0 auto 0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 16px;background:linear-gradient(180deg,rgba(5,10,16,.9),rgba(5,10,16,.45) 70%,transparent);border-bottom:1px solid #0e1823;backdrop-filter:blur(8px);z-index:20}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:38px;width:auto;display:block}
+  .navlinks{display:flex;gap:12px;flex-wrap:wrap}
+  .navlinks a{padding:8px 10px;border-radius:12px;color:var(--muted);text-decoration:none}
+  .navlinks a:hover{background:var(--pill);color:var(--text)}
+  .btn{background:var(--accent);color:#052b2b;border:none;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
+  .ghost{background:transparent;color:var(--text);border:1px solid #1b2735}
+  .hstack{display:flex;gap:10px;align-items:center}
+
+  /* Hero - banner removed, simple dark background */
+  header#home{position:relative;min-height:92vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(800px 400px at 15% 5%, rgba(0,209,178,.04), transparent 40%), radial-gradient(600px 300px at 85% 95%, rgba(0,153,255,.03), transparent 45%), linear-gradient(180deg,#07121a,#0b0f14 40%,#0a0f15)}
+  .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.35));pointer-events:none}
+  .hero{position:relative;z-index:1;text-align:center;max-width:1050px;margin:90px auto 0;padding:24px}
+  h1{font-size:clamp(28px,4.5vw,56px);line-height:1.05;margin:.3rem 0}
+  p.lead{font-size:clamp(14px,2.1vw,20px);color:var(--muted);max-width:780px;margin:0 auto 16px}
+  .pill{display:inline-block;background:var(--pill);padding:6px 10px;border-radius:999px;color:#bfe;letter-spacing:.2px;font-size:12px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:980px;margin:18px auto 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+  .stat b{font-size:22px}
+
+  /* Sections */
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  h2{font-size:clamp(22px,3vw,32px);margin:0 0 10px}
+  .muted{color:var(--muted)} .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  footer{padding:30px 0;color:#98aab8}
+
+  /* Donate */
+  .donate-opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .donate-opts a,.donate-opts button{padding:10px 14px;border-radius:12px;border:1px solid #1e2a36;background:#0f1620;color:var(--text);text-decoration:none;cursor:pointer}
+  .donate-opts a:hover,.donate-opts button:hover{border-color:#2a4c63}
+
+  /* Modals */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:50}
+  .modal.open{display:flex}
+  .sheet{width:min(92vw,720px);max-height:88vh;overflow:auto;background:#0f1620;border:1px solid var(--line);border-radius:16px;padding:18px}
+  .sheet h3{margin:0 0 10px} .sheet label{display:block;margin:10px 0 6px}
+  .sheet input,.sheet select,.sheet textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #1e2a36;background:#0b141d;color:var(--text)}
+  .sheet .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+
+  /* Chatbot */
+  .chat-fab{position:fixed;right:18px;bottom:18px;background:var(--accent);color:#052b2b;border:none;border-radius:999px;width:56px;height:56px;cursor:pointer;font-weight:800;box-shadow:0 10px 30px rgba(0,209,178,.25);z-index:25}
+  .chat{position:fixed;right:18px;bottom:84px;width:min(92vw,380px);max-height:70vh;display:none;flex-direction:column;background:#0f1620;border:1px solid var(--line);border-radius:16px;overflow:hidden;z-index:40}
+  .chat.open{display:flex}
+  .chat header{min-height:auto;border:0}
+  .chatlog{padding:12px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+  .bubble{padding:10px 12px;border-radius:14px;max-width:85%}
+  .u{align-self:flex-end;background:#123a3f}
+  .b{align-self:flex-start;background:#111a25}
+  .chat input{border:none;background:#0b141d;color:var(--text);padding:12px;border-top:1px solid var(--line)}
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:#11222b;color:#bfe;font-size:12px;margin:6px 6px 0 0;cursor:pointer}
+
+  /* Tabs (Portal) */
+  .tabs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .tabs button{padding:8px 12px;border-radius:10px;border:1px solid #1e2a2f;background:#0f1620;color:var(--text);cursor:pointer}
+  .tabs button.active{background:var(--accent);color:#052b2b;border-color:transparent}
+  .hidden{display:none !important}
+
+  /* Course lock */
+  .course{position:relative;overflow:hidden}
+  .lock{position:absolute;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;font-weight:700}
+  .lock span{background:#0f1620;box-shadow:0 0 0 1px #213040;border-radius:999px;padding:6px 10px}
+
+  /* Admin: Logo preview */
+  .logoRow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logoPreview{background:#0b141d;border:1px solid #1e2a36;border-radius:12px;padding:8px;display:inline-grid;place-items:center;width:120px;height:120px}
+  .logoPreview img{max-width:100%;max-height:100%;display:block}
+  @media (max-width:740px){.navlinks{display:none}.stats{grid-template-columns:1fr;gap:10px}.hstack{display:none}}
+</style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="container">
+    <div class="brand">
+      <img id="brandLogo" src="logo.png" alt="Thuto Entle logo"/>
+      <div>
+        <strong>Thuto Entle</strong><br>
+        <small class="muted">Beautiful Education for All</small>
+      </div>
+    </div>
+    <div class="navlinks">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#programs">Programs</a>
+      <a href="#courses">Courses</a>
+      <a href="#donate">Donate</a>
+      <a href="#volunteer">Volunteer</a>
+      <a href="#contact">Contact</a>
+      <a href="#portal">Student Portal</a>
+    </div>
+    <div class="hstack">
+      <button class="btn ghost" onclick="scrollToEl('#portal')">Login</button>
+      <a class="btn" href="#portal">Student Portal</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home">
+    <div class="overlay"></div>
+    <div class="hero container">
+      <span class="pill">Community Education & Skills Development NGO</span>
+      <h1>Empowering skills. Changing lives.</h1>
+      <p class="lead">We partner with communities to deliver practical, job-ready training for youth, women and adults.</p>
+      <div class="stats">
+        <div class="stat"><b>5000+</b><br><span>Trained Students</span></div>
+        <div class="stat"><b>300+</b><br><span>Workshops / Webinars</span></div>
+        <div class="stat"><b>10000+</b><br><span>Youth Reached</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h2>About Thuto Entle</h2>
+      <p class="muted">
+        Thuto Entle is a community-driven NGO dedicated to empowering youth, women, and adults through skills development, training, and education.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>Our Mission</h3>
+          <p>To provide beautiful education for all by delivering hands-on training that opens pathways to work and entrepreneurship.</p>
+        </div>
+        <div class="card">
+          <h3>Programmes</h3>
+          <ul>
+            <li><button class="ghost" onclick="openProgram('att')">Adult Telecommunications Training (ATT)</button></li>
+            <li><button class="ghost" onclick="openProgram('sip')">Skills Implementation Programme (SIP)</button></li>
+            <li><button class="ghost" onclick="openProgram('wow')">Women on the Way (WOW)</button></li>
+            <li><button class="ghost" onclick="openProgram('tem')">Township Economy Mechanism</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section id="programs">
+    <div class="container">
+      <h2>Community Programmes</h2>
+      <div class="grid">
+        <div class="card">
+          <b>Adult Telecommunications Training (ATT)</b>
+          <p class="muted">Digital literacy, device setup, and safe online practices for adults.</p>
+          <button class="btn ghost" onclick="openProgram('att')">Learn more</button>
+        </div>
+        <div class="card">
+          <b>Skills Implementation Programme (SIP)</b>
+          <p class="muted">Hands-on training in priority trades, aligned to local demand.</p>
+          <button class="btn ghost" onclick="openProgram('sip')">Learn more</button>
+        </div>
+        <div class="card">
+          <b>Women on the Way (WOW)</b>
+          <p class="muted">Entrepreneurship and income-generating skills for women.</p>
+          <button class="btn ghost" onclick="openProgram('wow')">Learn more</button>
+        </div>
+        <div class="card">
+          <b>Township Economy Mechanism</b>
+          <p class="muted">Micro-enterprise support, market access, and mentorship.</p>
+          <button class="btn ghost" onclick="openProgram('tem')">Learn more</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES (Locked until fee paid) -->
+  <section id="courses">
+    <div class="container">
+      <h2>Courses (Aganang)</h2>
+      <p class="muted">Courses are locked until a once-off R150 registration fee is confirmed.</p>
+      <div class="grid" id="courseGrid"></div>
+    </div>
+  </section>
+
+  <!-- DONATE -->
+  <section id="donate">
+    <div class="container">
+      <h2>Donate</h2>
+      <p class="muted">Every contribution sustains free and low-cost training for communities.</p>
+      <div class="donate-opts">
+        <a href="https://www.paypal.com/NCP/payment/DJSZ5VWZ66GVA" target="_blank" rel="noopener">Donate via PayPal</a>
+        <a href="#" onclick="cardDonate()">Donate by Card (Placeholder)</a>
+        <button onclick="showEFT()">EFT (Bank Transfer)</button>
+      </div>
+      <div id="eftBox" class="card" style="display:none;margin-top:12px">
+        <b>EFT Details</b>
+        <p class="muted mono" id="eftDetails"></p>
+        <details>
+          <summary>Upload Proof of Payment (demo)</summary>
+          <p class="muted">Front-end demo only. Connect a backend to receive files.</p>
+          <label>Your Name</label><input type="text" id="donorName" placeholder="Name Surname"/>
+          <label>Your Email</label><input type="email" id="donorEmail" placeholder="name@example.com"/>
+          <label>Amount (ZAR)</label><input type="number" id="donorAmount" placeholder="500"/>
+          <label>Proof of Payment (PDF/JPG/PNG)</label><input type="file" id="donorFile" accept=".pdf,.jpg,.jpeg,.png"/>
+          <div class="actions" style="margin-top:10px"><button class="btn" onclick="saveProof()">Submit</button></div>
+          <p id="proofMsg" class="muted" style="margin-top:8px"></p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOLUNTEER -->
+  <section id="volunteer">
+    <div class="container">
+      <h2>Volunteer with Us</h2>
+      <p class="muted">Share your skills—training, admin, mentoring, fundraising. Upload your CV and qualifications (PDF) for our admin team.</p>
+      <div class="card">
+        <label>Your Name</label><input type="text" id="volName" placeholder="Name Surname"/>
+        <label>Your Email</label><input type="email" id="volEmail" placeholder="you@example.com"/>
+        <label>Phone</label><input type="tel" id="volPhone" placeholder="+27..."/>
+        <label>Motivation</label><textarea id="volMotivation" rows="4" placeholder="Tell us how you'd like to help..."></textarea>
+        <label>Upload CV (PDF)</label><input type="file" id="volCv" accept=".pdf"/>
+        <label>Upload Qualifications (PDF)</label><input type="file" id="volQual" accept=".pdf"/>
+        <div class="actions"><button class="btn" onclick="submitVolunteer()">Submit</button></div>
+        <p id="volMsg" class="muted" style="margin-top:8px"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <div class="grid">
+        <div class="card"><b>Email</b><br><a href="mailto:thuto-entle@outlook.com">thuto-entle@outlook.com</a></div>
+        <div class="card"><b>Phone</b><br><a href="tel:+27685007648">+27 68 500 7648</a></div>
+        <div class="card"><b>Address</b><br>P.O Box 272 Krugersdorp 1744</div>
+        <div class="card"><b>Socials</b><br>@thutoentle on all platforms</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAL -->
+  <section id="portal">
+    <div class="container">
+      <h2>Student Portal</h2>
+      <p class="muted">Login or create an account. Courses unlock after a once-off R150 registration fee is confirmed.</p>
+      <div class="tabs">
+        <button id="tabLogin" class="active" onclick="showPortal('login')">Login</button>
+        <button id="tabRegister" onclick="showPortal('register')">Register</button>
+        <button id="tabDashboard" onclick="showPortal('dashboard')">Dashboard</button>
+      </div>
+
+      <!-- Login -->
+      <div id="portalLogin" class="card" style="margin-top:12px">
+        <label>Email</label><input type="email" id="pEmail" placeholder="you@example.com"/>
+        <label>Password</label><input type="password" id="pPass" placeholder="••••••••"/>
+        <label>Role</label>
+        <select id="pRole">
+          <option value="student">Student</option>
+          <option value="admin">Admin</option>
+        </select>
+        <div class="actions"><button class="btn" onclick="portalLogin()">Login</button></div>
+        <p class="muted" id="pMsg" style="margin-top:8px"></p>
+        <details style="margin-top:8px">
+          <summary>Demo accounts</summary>
+          <p class="muted mono"></p>
+        </details>
+      </div>
+
+      <!-- Register -->
+      <div id="portalRegister" class="card hidden" style="margin-top:12px">
+        <label>Email</label><input type="email" id="rEmail" placeholder="you@example.com"/>
+        <label>Password</label><input type="password" id="rPass" placeholder="Minimum 6 characters"/>
+        <div class="actions"><button class="btn" onclick="portalRegister()">Create account</button></div>
+        <p class="muted" id="rMsg" style="margin-top:8px"></p>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="portalDashboard" class="hidden" style="margin-top:12px">
+        <div class="grid">
+          <div class="card">
+            <b>Profile</b>
+            <p id="dashProfile" class="muted mono"></p>
+            <div class="actions"><button class="btn ghost" onclick="portalLogout()">Logout</button></div>
+          </div>
+          <div class="card">
+            <b>Registration Fee (R150)</b>
+            <p class="muted" id="feeStatus">Status: Unpaid</p>
+            <div class="donate-opts">
+              <button onclick="showEFT()">Pay via EFT</button>
+              <a href="https://www.paypal.com/NCP/payment/DJSZ5VWZ66GVA" target="_blank" rel="noopener">Pay via PayPal</a>
+              <a href="#" onclick="cardDonate()">Pay by Card</a>
+            </div>
+            <p class="muted" style="margin-top:8px">Once proof is received, admin toggles your access.</p>
+            <div class="actions">
+              <button class="btn" onclick="mockConfirmFee()">Mark as Paid (demo)</button>
+              <button class="btn ghost" onclick="mockRevokeFee()">Mark as Unpaid (demo)</button>
+            </div>
+          </div>
+          <div class="card">
+            <b>My Courses</b>
+            <ul id="dashCourses" class="muted"></ul>
+          </div>
+
+          <!-- ADMIN PANEL -->
+          <div class="card" id="adminPanel" style="display:none">
+            <b>Admin Panel</b>
+            <p class="muted">Approve fees, view submissions & manage branding (demo data from localStorage).</p>
+            <div class="actions" style="gap:8px;flex-wrap:wrap">
+              <button class="btn" onclick="renderAdminStudents()">Refresh Students</button>
+              <button class="btn ghost" onclick="viewProofs()">View Payment Proofs</button>
+              <button class="btn ghost" onclick="viewVolunteers()">View Volunteers</button>
+            </div>
+
+            <!-- Branding / Logo uploader -->
+            <div class="card" style="margin-top:12px">
+              <b>Branding / Logo</b>
+              <p class="muted" style="margin:6px 0 10px">
+                Upload a square image (recommended 256×256 PNG). This updates the navbar logo and the favicon. Saved in this browser only (localStorage).
+              </p>
+              <div class="logoRow">
+                <div class="logoPreview">
+                  <img id="logoPreview" src="logo.png" alt="Logo preview"/>
+                </div>
+                <div style="flex:1;min-width:220px">
+                  <label for="logoFile">Upload Logo</label>
+                  <input type="file" id="logoFile" accept=".png,.jpg,.jpeg,.webp,.gif,.svg,.ico" onchange="adminLogoChanged()"/>
+                  <div class="actions" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+                    <button class="btn" onclick="adminSaveLogo()">Save Logo</button>
+                    <button class="btn ghost" onclick="adminResetLogo()">Reset to Default</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="overflow:auto">
+              <table id="studentsTbl" style="width:100%;margin-top:10px;border-collapse:collapse">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;border-bottom:1px solid #223244;padding:8px">Email</th>
+                    <th style="text-align:left;border-bottom:1px solid #223244;padding:8px">Course</th>
+                    <th style="text-align:left;border-bottom:1px solid #223244;padding:8px">Paid</th>
+                    <th style="text-align:left;border-bottom:1px solid #223244;padding:8px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <pre id="adminOut" class="muted" style="white-space:pre-wrap;margin-top:8px"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <small>&copy; <span id="year"></span> Thuto Entle • Beautiful Education for All • <span class="mono">www.thutoentle.com</span></small>
+    </div>
+  </footer>
+
+  <!-- PROGRAM DETAILS MODAL -->
+  <div class="modal" id="programModal" role="dialog" aria-modal="true" aria-labelledby="programTitle">
+    <div class="sheet">
+      <h3 id="programTitle">Program Details</h3>
+      <div id="programBody" class="muted"></div>
+      <div class="actions"><button class="btn ghost" onclick="closeProgram()">Close</button></div>
+    </div>
+  </div>
+
+  <!-- CHATBOT -->
+  <button class="chat-fab" title="Chat with Thuto" id="chatFab">💬</button>
+  <div class="chat" id="chatBox" aria-live="polite">
+    <header style="padding:10px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between">
+      <strong>Thuto Assistant</strong>
+      <button class="btn ghost" onclick="toggleChat()">×</button>
+    </header>
+    <div class="chatlog" id="chatLog"></div>
+    <div style="display:flex">
+      <input id="chatInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendChat()"/>
+    </div>
+    <div style="padding:0 12px 12px">
+      <span class="chip" onclick="prefill('How do I register?')">How do I register?</span>
+      <span class="chip" onclick="prefill('Show courses')">Show courses</span>
+      <span class="chip" onclick="prefill('Donate options')">Donate options</span>
+      <span class="chip" onclick="prefill('Contact info')">Contact info</span>
+    </div>
+  </div>
+
+<script>
+/* ========= Constants & Seed Data ========= */
+const PROGRAM_DETAILS = {
+  att: `<p><b>Adult Telecommunications Training (ATT)</b></p>
+        <p>Many older adults rely on smartphones, computers and tablets. We help with passwords, device setup, safe browsing and online forms.</p>
+        <p>With more adults working into retirement, we support job search, online applications and web-based upskilling.</p>`,
+  sip: `<p><b>Skills Implementation Programme (SIP)</b></p>
+        <p>We build confidence to ask questions and make clear statements in short, familiar contexts.</p>
+        <p>Activities practice language for different audiences and purposes: giving opinions, explaining, enquiring and clarifying.</p>`,
+  wow: `<p><b>Women on the Way (WOW)</b></p>
+        <p>Delivery work has long been male-dominated. We open a new pathway for women to earn a stable income and challenge stereotypes.</p>`,
+  tem: `<p><b>Township Economy Mechanism</b></p>
+        <p>The township economy is vibrant yet under-studied. We generate insights that inform policy and support sustainable growth.</p>`
+};
+
+const COURSES = [
+  { id:'glass', name:'Glass & Aluminium' },
+  { id:'weld',  name:'Welding' },
+  { id:'brick', name:'Bricklaying & Plastering' },
+  { id:'sew',   name:'Sewing & Design' },
+];
+
+const EFT = `Account Holder: Thuto Entle
+Bank: Capitec Bank
+Account No: 2436168748
+Branch Code: 470010`;
+
+const DEFAULT_LOGO_SRC = 'logo.png';
+
+/* ========= Utils ========= */
+const $ = (sel, root=document)=>root.querySelector(sel);
+const $$ = (sel, root=document)=>[...root.querySelectorAll(sel)];
+const scrollToEl = (id)=>document.querySelector(id)?.scrollIntoView({behavior:'smooth'});
+
+/* ========= Branding / Logo (Admin) ========= */
+function applyLogo(src){
+  const img = $('#brandLogo');
+  if(img) img.src = src;
+  const link = document.querySelector('link[rel="icon"]#favicon') || document.querySelector('link[rel="icon"]');
+  if(link) link.href = src;
+  const prev = $('#logoPreview');
+  if(prev) prev.src = src;
+}
+function loadSavedLogo(){
+  const saved = localStorage.getItem('siteLogo');
+  if(saved){ applyLogo(saved); }
+}
+function adminLogoChanged(){
+  const file = $('#logoFile')?.files?.[0];
+  if(!file){ $('#adminOut').textContent = 'No file selected.'; return; }
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    $('#logoPreview').src = e.target.result;
+    $('#logoPreview').dataset.pending = '1';
+    $('#adminOut').textContent = 'Preview updated. Click "Save Logo" to apply.';
+  };
+  reader.readAsDataURL(file);
+}
+function adminSaveLogo(){
+  const hasPending = $('#logoPreview').dataset.pending === '1';
+  const dataUrl = $('#logoPreview').src;
+  if(!hasPending || !dataUrl){ $('#adminOut').textContent = 'Upload a logo first.'; return; }
+  try{
+    localStorage.setItem('siteLogo', dataUrl);
+    applyLogo(dataUrl);
+    delete $('#logoPreview').dataset.pending;
+    $('#adminOut').textContent = 'Logo saved and applied. It will persist in this browser.';
+  }catch(e){
+    $('#adminOut').textContent = 'Could not save logo (storage limit). Try a smaller image.';
+  }
+}
+function adminResetLogo(){
+  localStorage.removeItem('siteLogo');
+  applyLogo(DEFAULT_LOGO_SRC);
+  const prev = $('#logoPreview');
+  if(prev){ prev.src = DEFAULT_LOGO_SRC; delete prev.dataset.pending; }
+  $('#adminOut').textContent = 'Logo reset to default.';
+}
+
+/* ========= Render: Courses (locked by default) ========= */
+function renderCourses(paid=false, myCourseIds=[]) {
+  const wrap = $('#courseGrid');
+  wrap.innerHTML = '';
+  COURSES.forEach(c=>{
+    const card = document.createElement('div');
+    card.className = 'card course';
+    card.innerHTML = `
+      <b>${c.name}</b>
+      <p class="muted">Sample lessons available after registration fee is paid.</p>
+      <button class="btn ghost" ${paid && myCourseIds.includes(c.id) ? '' : 'disabled'} onclick="openLesson('${c.id}')">
+        ${paid && myCourseIds.includes(c.id) ? 'Open lessons' : 'Locked'}
+      </button>
+      ${paid && myCourseIds.includes(c.id) ? '' : '<div class="lock"><span>🔒 Locked</span></div>'}
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+/* ========= Program Details Modal ========= */
+function openProgram(key){
+  $('#programTitle').textContent = {
+    att:'Adult Telecommunications Training (ATT)',
+    sip:'Skills Implementation Programme (SIP)',
+    wow:'Women on the Way (WOW)',
+    tem:'Township Economy Mechanism'
+  }[key] || 'Program Details';
+  $('#programBody').innerHTML = PROGRAM_DETAILS[key] || '';
+  $('#programModal').classList.add('open');
+}
+function closeProgram(){ $('#programModal').classList.remove('open'); }
+
+/* ========= Donate ========= */
+function showEFT(){
+  $('#eftBox').style.display = 'block';
+  $('#eftDetails').textContent = EFT;
+}
+function saveProof(){
+  const name = $('#donorName').value.trim();
+  const email = $('#donorEmail').value.trim();
+  const amount = $('#donorAmount').value.trim();
+  const file = $('#donorFile').files[0]?.name || '(no file chosen)';
+  const proofs = JSON.parse(localStorage.getItem('proofs')||'[]');
+  proofs.push({name,email,amount,file,ts:new Date().toISOString()});
+  localStorage.setItem('proofs', JSON.stringify(proofs));
+  $('#proofMsg').textContent = 'Thanks! Your proof is saved (demo).';
+}
+function cardDonate(){
+  alert('Card payment placeholder. Integrate Stripe/Yoco in production.');
+}
+
+/* ========= Volunteer ========= */
+function submitVolunteer(){
+  const obj = {
+    name: $('#volName').value.trim(),
+    email: $('#volEmail').value.trim(),
+    phone: $('#volPhone').value.trim(),
+    motivation: $('#volMotivation').value.trim(),
+    cv: $('#volCv').files[0]?.name || '(none)',
+    qual: $('#volQual').files[0]?.name || '(none)',
+    ts: new Date().toISOString()
+  };
+  const list = JSON.parse(localStorage.getItem('volunteers')||'[]');
+  list.push(obj);
+  localStorage.setItem('volunteers', JSON.stringify(list));
+  $('#volMsg').textContent = 'Thank you! Your submission was recorded (demo).';
+}
+
+/* ========= Portal Accounts (seed + auth) ========= */
+function seedDemo(){
+  if(!localStorage.getItem('users')){
+    const users = [
+      {email:'admin@thutoentle.com', pass:'Admin123!', role:'admin', paid:true, courses:[]},
+      {email:'learner1@thutoentle.com', pass:'Student123!', role:'student', paid:true, courses:['weld']},
+      {email:'learner2@thutoentle.com', pass:'Student123!', role:'student', paid:false, courses:['sew']},
+      {email:'learner3@thutoentle.com', pass:'Student123!', role:'student', paid:true, courses:['brick']},
+    ];
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+}
+function getUsers(){ return JSON.parse(localStorage.getItem('users')||'[]'); }
+function setUsers(u){ localStorage.setItem('users', JSON.stringify(u)); }
+
+function portalLogin(){
+  const email = $('#pEmail').value.trim().toLowerCase();
+  const pass = $('#pPass').value;
+  const role = $('#pRole').value;
+  const user = getUsers().find(u=>u.email.toLowerCase()===email && u.pass===pass && u.role===role);
+  if(!user){ $('#pMsg').textContent = 'Invalid credentials.'; return; }
+  localStorage.setItem('session', JSON.stringify({email:user.email}));
+  $('#pMsg').textContent = 'Logged in.';
+  showPortal('dashboard');
+  renderDashboard();
+}
+function portalLogout(){
+  localStorage.removeItem('session');
+  showPortal('login');
+}
+function portalRegister(){
+  const email = $('#rEmail').value.trim().toLowerCase();
+  const pass = $('#rPass').value;
+  if(!email || pass.length<6){ $('#rMsg').textContent='Enter a valid email and 6+ char password.'; return; }
+  const users = getUsers();
+  if(users.some(u=>u.email.toLowerCase()===email)){ $('#rMsg').textContent='Account already exists.'; return; }
+  users.push({email, pass, role:'student', paid:false, courses:[]});
+  setUsers(users);
+  $('#rMsg').textContent='Account created. Please login.';
+  showPortal('login');
+}
+
+/* ========= Portal UI ========= */
+function showPortal(which){
+  $('#portalLogin').classList.toggle('hidden', which!=='login');
+  $('#portalRegister').classList.toggle('hidden', which!=='register');
+  $('#portalDashboard').classList.toggle('hidden', which!=='dashboard');
+  $('#tabLogin').classList.toggle('active', which==='login');
+  $('#tabRegister').classList.toggle('active', which==='register');
+  $('#tabDashboard').classList.toggle('active', which==='dashboard');
+}
+function renderDashboard(){
+  const session = JSON.parse(localStorage.getItem('session')||'null');
+  const users = getUsers();
+  const me = users.find(u=>u.email===session?.email);
+  if(!me){ showPortal('login'); return; }
+
+  $('#dashProfile').textContent = `Email: ${me.email}
+Role: ${me.role}
+Courses: ${(me.courses||[]).map(id=>COURSES.find(c=>c.id===id)?.name).filter(Boolean).join(', ') || 'None'}
+`;
+  $('#feeStatus').textContent = `Status: ${me.paid ? 'Paid' : 'Unpaid'}`;
+  const ul = $('#dashCourses'); ul.innerHTML='';
+  (me.courses||[]).forEach(id=>{
+    const li=document.createElement('li');
+    li.textContent = COURSES.find(c=>c.id===id)?.name || id;
+    ul.appendChild(li);
+  });
+  renderCourses(me.paid, me.courses||[]);
+
+  // Admin panel visibility
+  $('#adminPanel').style.display = me.role==='admin' ? 'block' : 'none';
+  if(me.role==='admin') renderAdminStudents();
+}
+
+// Demo toggle buttons on dashboard
+function mockConfirmFee(){
+  const s = JSON.parse(localStorage.getItem('session')||'null'); if(!s) return;
+  const users = getUsers(); const me = users.find(u=>u.email===s.email);
+  if(me){ me.paid=true; setUsers(users); renderDashboard(); }
+}
+function mockRevokeFee(){
+  const s = JSON.parse(localStorage.getItem('session')||'null'); if(!s) return;
+  const users = getUsers(); const me = users.find(u=>u.email===s.email);
+  if(me){ me.paid=false; setUsers(users); renderDashboard(); }
+}
+
+/* ========= Admin Table ========= */
+function renderAdminStudents(){
+  const tbody = $('#studentsTbl tbody');
+  tbody.innerHTML='';
+  getUsers()
+    .filter(u=>u.role==='student')
+    .forEach(u=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="padding:8px;border-bottom:1px solid #223244">${u.email}</td>
+        <td style="padding:8px;border-bottom:1px solid #223244">${(u.courses||[]).map(id=>COURSES.find(c=>c.id===id)?.name).join(', ') || '-'}</td>
+        <td style="padding:8px;border-bottom:1px solid #223244">${u.paid ? '✅' : '❌'}</td>
+        <td style="padding:8px;border-bottom:1px solid #223244">
+          <button class="btn" onclick="adminTogglePaid('${u.email}')">${u.paid?'Mark Unpaid':'Mark Paid'}</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+}
+function adminTogglePaid(email){
+  const users = getUsers();
+  const u = users.find(x=>x.email===email);
+  if(!u) return;
+  u.paid = !u.paid;
+  setUsers(users);
+  renderAdminStudents();
+}
+
+/* ========= Dummy viewers for proofs/volunteers (kept as in original) ========= */
+function viewProofs(){
+  const proofs = JSON.parse(localStorage.getItem('proofs')||'[]');
+  $('#adminOut').textContent = proofs.length ? JSON.stringify(proofs, null, 2) : 'No proofs found.';
+}
+function viewVolunteers(){
+  const vols = JSON.parse(localStorage.getItem('volunteers')||'[]');
+  $('#adminOut').textContent = vols.length ? JSON.stringify(vols, null, 2) : 'No volunteer submissions found.';
+}
+
+/* ========= Lessons (sample) ========= */
+function openLesson(courseId){
+  const course = COURSES.find(c=>c.id===courseId);
+  alert(`Sample lessons for ${course?.name || courseId}:\n• Safety & Tools Basics\n• First Practical Task\n• Short Quiz\n\n(Front-end demo)`);
+}
+
+/* ========= Chatbot (rule-based demo) ========= */
+function toggleChat(){ $('#chatBox').classList.toggle('open'); }
+document.addEventListener('click', (e)=>{
+  if(e.target && e.target.id==='chatFab') toggleChat();
+});
+function prefill(t){ $('#chatInput').value=t; $('#chatInput').focus(); }
+function addBubble(text, who='b'){
+  const d=document.createElement('div'); d.className=`bubble ${who}`; d.textContent=text; $('#chatLog').appendChild(d); $('#chatLog').scrollTop = $('#chatLog').scrollHeight;
+}
+function sendChat(){
+  const msg = $('#chatInput').value.trim(); if(!msg) return;
+  addBubble(msg,'u'); $('#chatInput').value='';
+  respond(msg);
+}
+function respond(msg){
+  const m = msg.toLowerCase();
+  let reply = "I'm here to help. Try asking about registration, courses, programmes, donations or contact.";
+  if(m.includes('register')) reply = "Create an account in the Student Portal, then pay the once-off R150 fee via EFT, PayPal or card. Admin will unlock your courses.";
+  else if(m.includes('donate') || m.includes('pay') || m.includes('fee')) reply = "Pay options: EFT (Capitec 2436168748, branch 470010), PayPal link on Donate, or card (placeholder). Upload proof on the Donate section.";
+  else if(m.includes('course')) reply = "Courses: Glass & Aluminium, Welding, Bricklaying & Plastering, Sewing & Design. They show as locked until your fee is confirmed.";
+  else if(m.includes('program') || m.includes('programme')) reply = "Click any programme card to read full details in a modal.";
+  else if(m.includes('contact')) reply = "Email: info@thutoentle.org | Phone: +27 68 500 7648 | P.O Box 272 Krugersdorp 1744.";
+  else if(m.includes('portal')) reply = "Open Student Portal → Login/Register. Demo admin: admin@thutoentle.com / Admin123!";
+  setTimeout(()=>addBubble(reply,'b'),300);
+}
+
+/* ========= Init ========= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  seedDemo();
+  document.getElementById('year').textContent = new Date().getFullYear();
+  renderCourses(false, []);
+  document.getElementById('eftDetails').textContent = EFT;
+  loadSavedLogo();
+  addBubble("Hi! I'm Thuto Assistant. How can I help?");
+});
+</script>
+</body>
+</html>
