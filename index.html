@@ -240,7 +240,7 @@
       <h2>Contact</h2>
       <div class="grid">
         <div class="card"><b>Email</b><br><a href="mailto:info@thutoentle.org">info@thutoentle.org</a></div>
-        <div class="card"><b>Phone</b><br><a href="tel:(011)4100933">(011) 410 0933</a></div>
+        <div class="card"><b>Phone</b><br><a href="tel:(010)0179970">(010) 017 9970</a></div>
         <div class="card"><b>Address</b><br>P.O Box 272 Krugersdorp 1744</div>
         <div class="card"><b>Socials</b><br>@thutoentle.org</div>
       </div>
@@ -691,11 +691,11 @@ function sendChat(){
 function respond(msg){
   const m = msg.toLowerCase();
   let reply = "I'm here to help. Try asking about registration, courses, programmes, donations or contact.";
-  if(m.includes('register')) reply = "Create an account in the Student Portal, then pay the once-off R150 fee via EFT, PayPal or card. Admin will unlock your courses.";
+  if(m.includes('register')) reply = "Create an account in the Student Portal, then pay the once-off R100 fee via EFT, PayPal or card. Admin will unlock your courses.";
   else if(m.includes('donate') || m.includes('pay') || m.includes('fee')) reply = "Pay options: EFT (Capitec 2436168748, branch 470010), PayPal link on Donate, or card (placeholder). Upload proof on the Donate section.";
   else if(m.includes('course')) reply = "Courses: Glass & Aluminium, Welding, Bricklaying & Plastering, Sewing & Design. They show as locked until your fee is confirmed.";
   else if(m.includes('program') || m.includes('programme')) reply = "Click any programme card to read full details in a modal.";
-  else if(m.includes('contact')) reply = "Email: info@thutoentle.org | Phone: +27 68 500 7648 | P.O Box 272 Krugersdorp 1744.";
+  else if(m.includes('contact')) reply = "Email: info@thutoentle.org | Phone: +27 10 017 9970 | P.O Box 272 Krugersdorp 1744.";
   else if(m.includes('portal')) reply = "Open Student Portal → Login/Register. Demo admin: admin@thutoentle.com / Admin123!";
   setTimeout(()=>addBubble(reply,'b'),300);
 }
