@@ -484,7 +484,7 @@ function renderCourses(paid=false, myCourseIds=[]) {
     card.className = 'card course';
     card.innerHTML = `
       <b>${c.name}</b>
-      <p class="muted">Sample lessons available after registration fee is paid.</p>
+      <p class="muted">lessons available after registration fee is paid.</p>
       <button class="btn ghost" ${paid && myCourseIds.includes(c.id) ? '' : 'disabled'} onclick="openLesson('${c.id}')">
         ${paid && myCourseIds.includes(c.id) ? 'Open lessons' : 'Locked'}
       </button>
